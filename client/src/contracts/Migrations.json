@@ -59,7 +59,7 @@
   "sourceMap": "36:326:0:-;;;196:52;8:9:-1;5:2;;;30:1;27;20:12;5:2;196:52:0;232:10;224:5;;:18;;;;;;;;;;;;;;;;;;36:326;;;;;;",
   "deployedSourceMap": "36:326:0:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;36:326:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;86:36;;;:::i;:::-;;;;;;;;;;;;;;;;;;;61:20;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;254:105;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;254:105:0;;;;;;;;;;;;;;;;;:::i;:::-;;86:36;;;;:::o;61:20::-;;;;;;;;;;;;;:::o;254:105::-;176:5;;;;;;;;;;;162:19;;:10;:19;;;158:26;;;344:9;317:24;:36;;;;158:26;254:105;:::o",
   "source": "pragma solidity >=0.4.21 <0.7.0;\r\n\r\ncontract Migrations {\r\n  address public owner;\r\n  uint public last_completed_migration;\r\n\r\n  modifier restricted() {\r\n    if (msg.sender == owner) _;\r\n  }\r\n\r\n  constructor() public {\r\n    owner = msg.sender;\r\n  }\r\n\r\n  function setCompleted(uint completed) public restricted {\r\n    last_completed_migration = completed;\r\n  }\r\n}\r\n",
-  "sourcePath": "C:\\Srushti\\BCT-mp\\Ethereum-EHR\\contracts\\Migrations.sol",
+  "sourcePath": "C:\\Users\\Madhura Chitale\\Documents\\SEMESTER 6\\BCT lab\\minip EHR\\EHR\\contracts\\Migrations.sol",
   "ast": {
     "absolutePath": "project:/contracts/Migrations.sol",
     "exportedSymbols": {
@@ -958,12 +958,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xFD581a536c5cD8Fa25e4945a5059F785376891BC",
-      "transactionHash": "0x89691ccd0acea94345081bbd80c04e159b29e1c2c4a897887c02a3e798ea5bb4"
+      "address": "0x046FA6aAeF52f06C86ebd7eF972Aa39D662f32fE",
+      "transactionHash": "0x02ffd0be26c2b5b212ebb00d18e390439e1732d09ca907eb52da79c08cd09695"
     }
   },
   "schemaVersion": "3.4.13",
-  "updatedAt": "2023-04-26T07:12:31.766Z",
+  "updatedAt": "2023-04-26T16:56:39.233Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

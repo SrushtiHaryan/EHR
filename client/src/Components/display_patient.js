@@ -36,11 +36,11 @@
 //         console.log('files',this.state.files);
 //     }
 //     // getPatientInfoForDoctor = async (patient_address, callback) => {
-        
+
 //     //     let res = await this.contract.methods.getUserFiles(patient_address).call({from :this.Acc[0]});
 //     //     callback(res);
-//     // } 
-    
+//     // }
+
 //     //   getFileInfo (role, file_list, patient_address, callback) {
 //     //     // let res = await healthRecord.getFileInfoPatient.sendTransaction(fileHash, {"from":web3.eth.accounts[0]});
 //     //     let body = {role, file_list, address: this.Acc[0], patient_address};
@@ -69,7 +69,7 @@
 //     //     this.setState({patient_name:data[0],patient_age:data[1],patient_files:data[3]},
 //     //     () => {
 //     //         let  { patient_files } = this.state;
-            
+
 //     //         this.contract.methods.getFileInfo("doctor", patient_files, this.props.patient_address).then( (filesInfo) => {
 //     //             this.setState({filesInfo});
 //     //         });
@@ -100,7 +100,7 @@
 //                 <div style={{height: "500px", overflowY: "scroll"}}>
 //                 <Collapse className='folderTab' defaultActiveKey={['1']}>
 //                         <Panel   header={<Icon type="folder" />} key="1">
-//                             { 
+//                             {
 //                                 files.map((fhash, i) => {
 //                                     let filename = this.state.files[i]?this.state.files[i][0]:null;
 //                                     //let diplayImage = "/ipfs_file?hash="+fhash+"&file_name="+filename;
@@ -108,12 +108,12 @@
 //                                     // "&role=patient&token="+token+"&patient_address="+web3.eth.accounts[0];
 //                                     //let diplayImage=null;
 //                                     let fileProps = {fhash, filename, diplayImage, i};
-                                    
+
 //                                     return <DisplayFiles that={this} props={fileProps}/>
-//                                 }) 
+//                                 })
 //                             }
 //                         </Panel>
-                       
+
 //                     </Collapse>
 //                 </div>
 //             </div>
@@ -122,7 +122,7 @@
 // }
 
 // const flexStyle = {
-//     display:"flex", 
+//     display:"flex",
 //     flexDirection:"column"
 // }
 
@@ -174,13 +174,13 @@
 
 //         console.log('files',this.state.files);
 //     }
-    
+
 //     componentWillMount() {
 //         if(this.props.patient_address)
 //             this.loadFiles(this.props.patient_address);
-           
+
 //     }
-    
+
 //     showFile(hash, flag) {
 //         let { files, showPopup } = this.state;
 //         if(files.indexOf(hash) > -1){
@@ -205,18 +205,18 @@
 //                 <div style={{height: "500px", overflowY: "scroll"}}>
 //                 <Collapse className='folderTab' defaultActiveKey={['1']}>
 //                         <Panel   header={<Icon type="folder" />} key="1">
-//                             { 
+//                             {
 //                                 files.map((fhash, i) => {
 //                                     let filename = this.state.files[i]?this.state.files[i][0]:null;
 //                                     let diplayImage = `https://ipfs.io/ipfs/${this.state.files[i][2]}`;
-                                    
+
 //                                     let fileProps = {fhash, filename, diplayImage, i};
-                                    
+
 //                                     return <DisplayFiles that={this} props={fileProps}/>
-//                                 }) 
+//                                 })
 //                             }
 //                         </Panel>
-                       
+
 //                     </Collapse>
 //                 </div>
 //             </div>
@@ -225,10 +225,9 @@
 // }
 
 // const flexStyle = {
-//     display:"flex", 
+//     display:"flex",
 //     flexDirection:"column"
 // }
-
 
 // const mapStateToProps = (state) => {
 //     return {
@@ -239,11 +238,10 @@
 
 // export default DisplayPatient;
 
-
-import React, { useState, useEffect } from 'react';
-import { getPatientInfoForDoctor } from './eth-util';
+import React, { useState, useEffect } from "react";
+import { getPatientInfoForDoctor } from "./eth-util";
 import { getFileInfo } from "./eth-util";
-import {  Icon, Card,Collapse } from 'antd';
+import { Icon, Card, Collapse } from "antd";
 
 import PopUp from "./common/popup";
 import DisplayFiles from "./common/display_file";
@@ -252,70 +250,71 @@ import axios from "axios";
 const Panel = Collapse.Panel;
 
 const DisplayPatient = (props) => {
+  const [patientName, setPatientName] = useState("");
+  const [patientAge, setPatientAge] = useState(0);
+  const [patientFiles, setPatientFiles] = useState([]);
+  const [filesInfo, setFilesInfo] = useState([]);
+  const [showPopup, setShowPopup] = useState([]);
+  const [files, setFiles] = useState([]);
 
-    const [patientName, setPatientName] = useState("");
-    const [patientAge, setPatientAge] = useState(0);
-    const [patientFiles, setPatientFiles] = useState([]);
-    const [filesInfo, setFilesInfo] = useState([]);
-    const [showPopup, setShowPopup] = useState([]);
-    const [files, setFiles] = useState([]);
+  const contract = props.contract;
+  const Acc = props.Acc;
 
-    const contract = props.contract;
-    const Acc= props.Acc;
-
-    useEffect(() => {
-        if (props.patient_address) {
-            loadFiles(props.patient_address);
-        }
-    }, [props.patient_address]);
-
-    const loadFiles = async (patientAddress) => {
-        const data = await contract.methods.getPatientInfoForDoctor(patientAddress).call({ from: Acc[0] });
-        console.log('files', data);
-        if (data[3]) {
-            setPatientName(data[0]);
-            setPatientAge(data[1]);
-            setFiles(data[3]);
-        }
-        console.log('files', files);
+  useEffect(() => {
+    if (props.patient_address) {
+      loadFiles(props.patient_address);
     }
+  }, [props.patient_address]);
 
-    const showFile = (hash, flag) => {
-        if (files.indexOf(hash) > -1) {
-            let showPopupTemp = showPopup.slice(0);
-            showPopupTemp[files.indexOf(hash)] = flag;
-            setShowPopup(showPopupTemp);
-        }
+  const loadFiles = async (patientAddress) => {
+    const data = await contract.methods
+      .getPatientInfoForDoctor(patientAddress)
+      .call({ from: Acc[0] });
+    console.log("files", data);
+    if (data[3]) {
+      setPatientName(data[0]);
+      setPatientAge(data[1]);
+      setFiles(data[3]);
     }
+    console.log("files", files);
+  };
 
-    return (
-        <div style={{width:"100%"}}>
-            <Card bordered={true} style={flexStyle}>
-                <h4>patient address: {props.patient_address}</h4>
-                <h4> patien name: {patientName}</h4>
-                <h4>patient age: {patientAge}</h4>
-            </Card>
-            <div style={{height: "500px", overflowY: "scroll"}}>
-            <Collapse className='folderTab' defaultActiveKey={['1']}>
-                    <Panel   header={<Icon type="folder" />} key="1">
-                        { 
-                            files.map((fhash, i) => {
-                                let filename = files[i] ? files[i][0] : null;
-                                let diplayImage = `https://ipfs.io/ipfs/${files[i][2]}`;
-                                let fileProps = {fhash, filename, diplayImage, i};
-                                return <DisplayFiles that={this} props={fileProps}/>
-                            }) 
-                        }
-                    </Panel>
-                </Collapse>
-            </div>
-        </div>
-    );
-}
+  const showFile = (hash, flag) => {
+    if (files.indexOf(hash) > -1) {
+      let showPopupTemp = showPopup.slice(0);
+      showPopupTemp[files.indexOf(hash)] = flag;
+      setShowPopup(showPopupTemp);
+    }
+  };
+
+  return (
+    <div style={{ width: "100%" }}>
+      <Card bordered={true} style={flexStyle}>
+        <h10>Patient's address: {props.patient_address}</h10>
+        <br></br>
+        <h10>Patient's name: {patientName}</h10>
+        <br></br>
+        <h10>Patient's age: {patientAge}</h10>
+      </Card>
+      <div style={{ height: "500px", overflowY: "scroll" }}>
+        <Collapse className="folderTab" defaultActiveKey={["1"]}>
+          <Panel header={<Icon type="folder" />} key="1">
+            {files.map((fhash, i) => {
+              let filename = files[i] ? files[i][0] : null;
+              let diplayImage = `https://ipfs.io/ipfs/${files[i][2]}`;
+              let fileProps = { fhash, filename, diplayImage, i };
+              return <DisplayFiles that={this} props={fileProps} />;
+            })}
+          </Panel>
+        </Collapse>
+      </div>
+    </div>
+  );
+};
 
 const flexStyle = {
-    display:"flex", 
-    flexDirection:"column"
-}
+  display: "flex",
+  flexDirection: "column",
+};
 
 export default DisplayPatient;

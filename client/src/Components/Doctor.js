@@ -36,7 +36,7 @@ class Doctor extends Component {
             <div>
                 <Card bordered={true}>
                     <div>
-                        name: {name}
+                        Name: {name}
                     </div>
                 </Card>
                 <Row gutter={16} style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
